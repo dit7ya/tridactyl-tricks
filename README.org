@@ -14,7 +14,7 @@
     #+end_src
 
     - Play the current YouTube link's audio in the background.
-      TODO
+      
 
     - Play the current YouTube video in a popup
     
