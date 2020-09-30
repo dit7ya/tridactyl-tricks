@@ -1,4 +1,4 @@
-[[https://github.com/tridactyl/tridactyl][Tridactyl]] is an amazing tool, offering amazing capabilities for a keyboard driven and predictable navigation in the browser. However there are many wonderful features that offer great customization possibilities which are not usually advertised or have easily available online examples. This repository exists to collect snippets with explanations for such features.
+[[https://github.com/tridactyl/tridactyl][Tridactyl]] is an amazing tool, offering fantastic capabilities for a keyboard driven and predictable navigation in the browser. However there are many wonderful features that offer great customization possibilities which are not usually advertised or have easily available online examples. This repository exists to collect snippets with explanations for such features.
 
 
 ** Native Messenger and Exclaim Commands
@@ -17,9 +17,50 @@
       TODO
 
     - Play the current YouTube video in a popup
-    
+
     #+begin_src js
       bind Ypv js tri.native.run(`mpv --ytdl-format="[height <=? 480]" --ontop --geometry=20%x20% '${document.location.href}'`)
     #+end_src
+
+    (Configure your Window Manager to set up the location of the window.)
+
+*** Search
+    The following work when you are more or less sure about what appears as search results for your search term, but don't want to open a new tab to search and break flow. Currently this does not work with space separated search queries though.
+
+    - Copy to clipboard the URL of the first DuckDuckGo search result of the search term.
+    #+begin_src js
+      command cpl js -p tri.native.run('ddgr --json -n 1 ' +JS_ARG + '| jq -r ".[0].url" | xclip -sel clip')
+    #+end_src
+    - Copy the link to the Wikipedia article of the search term to clipboard.
+    #+begin_src js
+      command cpw js -p tri.native.run('ddgr --json -n 1 ' +JS_ARG + ' site: wikipedia.org | jq -r ".[0].url" | xclip -sel clip')
+    #+end_src
+    - Copy the link to the GitHub repository of the search term to clipboard.
+    #+begin_src js
+      command cpg js -p tri.native.run('ddgr --json -n 1 ' +JS_ARG + ' site: github.com | jq -r ".[0].url" | xclip -sel clip')
+    #+end_src
+
+** Site Specific Actions
+
+*** GitHub
     
-      (Configure your Window Manager to set up the location of the window.)
+    - Star/ Unstar repo on current page
+      TODO This should failback to hint if there is only one starrable content, and there is no need to restrict it to any specific URL
+      
+    #+begin_src js
+      bindurl github.com/* ,s js document.querySelector('.starred>button').click()
+    #+end_src
+
+    
+    
+** Global Actions    
+*** Hypothes.is
+    
+    - Copy all visible hightlights from the current page. (Caveat: Breaks into multiple lines if a continuous highlight has different HTML syntaxes)
+    #+begin_src js
+
+      command yankHypothesis js let x = document.getElementsByClassName('hypothesis-highlight'); let t = ""; for (let j =0;j <x.length; j++) {t = t + '\n\n' + x[j].innerHTML}; function h () {return t}; h()
+
+      bind yh composite yankHypothesis | yank
+    #+end_src
+
