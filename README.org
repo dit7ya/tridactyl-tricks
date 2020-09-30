@@ -1,4 +1,8 @@
-[[https://github.com/tridactyl/tridactyl][Tridactyl]] is an amazing tool, offering amazing capabilities for a keyboard driven and predictable navigation in the browser. However there are many wonderful features that offer great customization possibilities which are not usually advertised or have easily available online examples. This repository exists to collect snippets with explanations for such features.
+#+TITLE: Tridactyl Tricks
+
+
+
+[[https://github.com/tridactyl/tridactyl][Tridactyl]] is an amazing tool, offering fantastic capabilities for a keyboard driven and predictable workflow in the browser. However there are many wonderful features that offer great customization possibilities which are not usually advertised or have easily available online examples. This repository exists to collect snippets with explanations for such features.
 
 
 ** Native Messenger and Exclaim Commands
@@ -23,3 +27,14 @@
     #+end_src
     
       (Configure your Window Manager to set up the location of the window.)
+
+** Global Actions    
+*** Hypothes.is
+    
+    - Copy all visible hightlights from the current page. (Caveat: Breaks into multiple lines if a continuous highlight has different HTML syntaxes)
+    #+begin_src js
+
+      command yankHypothesis js let x = document.getElementsByClassName('hypothesis-highlight'); let t = ""; for (let j =0;j <x.length; j++) {t = t + '\n\n' + x[j].innerHTML}; function h () {return t}; h()
+
+      bind yh composite yankHypothesis | yank
+    #+end_src
